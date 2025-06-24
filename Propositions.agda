@@ -63,6 +63,19 @@ P ⊠ Q ⁻ = (P ⁺ → Q ⁻) ∧ (Q ⁺ → P ⁻)
 _⊞_ : ±Prop ℓ → ±Prop ℓ' → ±Prop (ℓ l⊔ ℓ')
 P ⊞ Q = ¬ (¬ P ⊠ ¬ Q)
 
+infix 2 ⊓-syntax ⊔-syntax
+
+⊓-syntax : (X : Type ℓ) → (X → ±Prop ℓ') → ±Prop (ℓ l⊔ ℓ')
+⊓-syntax X P ⁺ = ∀(x : X) → P x ⁺
+⊓-syntax X P ⁻ = Σ[ x ∈ X ] P x ⁻
+⊓-syntax X P .chu p+ (x , px-) = P x .chu (p+ x) px-
+
+⊔-syntax : (X : Type ℓ) → (X → ±Prop ℓ') → ±Prop (ℓ l⊔ ℓ')
+⊔-syntax X P = ¬ ⊓-syntax X λ x → ¬ P x
+
+syntax ⊓-syntax X (λ x → P) = ⊓[ x ∈ X ] P
+syntax ⊔-syntax X (λ x → P) = ⊔[ x ∈ X ] P
+
 _⊸_ : ±Prop ℓ → ±Prop ℓ' → ±Prop (ℓ l⊔ ℓ')
 P ⊸ Q = ¬ (P ⊠ ¬ Q)
 

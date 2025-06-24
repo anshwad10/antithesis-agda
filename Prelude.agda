@@ -30,3 +30,10 @@ P ∧ Q = Σ P λ _ → Q
 data _∨_ (P : Type ℓ) (Q : Type ℓ') : Type (ℓ l⊔ ℓ') where
   inl : P → P ∨ Q
   inr : Q → P ∨ Q
+
+infix 2 Σ-syntax
+
+Σ-syntax : ∀ {ℓ ℓ'} (A : Type ℓ) (B : A → Type ℓ') → Type (ℓ l⊔ ℓ')
+Σ-syntax = Σ
+
+syntax Σ-syntax A (λ x → B) = Σ[ x ∈ A ] B
