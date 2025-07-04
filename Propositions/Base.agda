@@ -51,8 +51,8 @@ infix 50 ¬_ !_ ¡_ -- ? is a special character in agda
 infix 40 _⊓_ _⊔_ _⊠_ _⊞_ _⊸_
 
 _⊓_ : ±Prop ℓ → ±Prop ℓ' → ±Prop (ℓ l⊔ ℓ')
-P ⊓ Q ⁺ = P ⁺ ∧ Q ⁺
-P ⊓ Q ⁻ = P ⁻ ∨ Q ⁻
+P ⊓ Q ⁺ = P ⁺ × Q ⁺
+P ⊓ Q ⁻ = P ⁻ + Q ⁻
 (P ⊓ Q) .chu (p+ , q+) (inl p-) = P .chu p+ p-
 (P ⊓ Q) .chu (p+ , q+) (inr q-) = Q .chu q+ q-
 
@@ -61,7 +61,7 @@ P ⊔ Q = ¬ (¬ P ⊓ ¬ Q)
 
 _⊸_ : ±Prop ℓ → ±Prop ℓ' → ±Prop (ℓ l⊔ ℓ')
 P ⊸ Q ⁺ = P ⊢ Q
-P ⊸ Q ⁻ = P ⁺ ∧ Q ⁻
+P ⊸ Q ⁻ = P ⁺ × Q ⁻
 (P ⊸ Q) .chu p⊢q (p+ , q-) = P .chu p+ (p⊢q .fo q-)
 
 _⊠_ : ±Prop ℓ → ±Prop ℓ' → ±Prop (ℓ l⊔ ℓ')

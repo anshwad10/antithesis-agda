@@ -114,3 +114,6 @@ _ ⊣⟨ ¬q⊢¬p ⟩ q⊢r = _ ⊢⟨ contrapose ¬q⊢¬p ⟩ q⊢r
 ⊠weaken⊓ .fo (inl p-) .fo q- = p-
 ⊠weaken⊓ .fo (inr q-) .to p- = q-
 ⊠weaken⊓ {Q} .fo (inr q-) .fo q+ = absurd (Q .chu q+ q-)
+
+⊓map : P ⊢ R → Q ⊢ S → P ⊓ Q ⊢ R ⊓ S
+⊓map p⊢r q⊢s = ⊓intro (⊢trans ⊓outl p⊢r) (⊢trans ⊓outr q⊢s)

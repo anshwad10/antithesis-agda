@@ -83,7 +83,7 @@ module _ {X : Type ℓ} ⦃ EqX : Equality X ℓ' ⦄ where
   #respectr (lift x≡y) (lift z#x) = lift (trans _ _ _ .fo z#x .fo (sym _ _ .to x≡y))
 
   module _ ⦃ StrongX : IsStrong X ⦄ where
-    #cotrans : ∀ {x y} z → x # y → (x # z) ∨ (z # y)
+    #cotrans : ∀ {x y} z → x # y → (x # z) + (z # y)
     #cotrans z (lift x#y) with strongTrans _ z _ .fo x#y
     ... | inl x#z = inl (lift x#z)
     ... | inr z#y = inr (lift z#y)

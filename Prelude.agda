@@ -6,7 +6,7 @@ open import Agda.Builtin.Sigma public
 
 private variable
   ℓ ℓ' ℓ'' : Level
-  P Q R : Type ℓ
+  X Y Z W : Type ℓ
 
 -- intuitionistic logical operators
 record Lift (X : Type ℓ) ℓ' : Type (ℓ l⊔ ℓ') where
@@ -37,12 +37,12 @@ absurd* ()
 tt* : 𝟙* ℓ
 tt* = lift tt
 
-_∧_ : Type ℓ → Type ℓ' → Type (ℓ l⊔ ℓ')
-P ∧ Q = Σ P λ _ → Q
+_×_ : Type ℓ → Type ℓ' → Type (ℓ l⊔ ℓ')
+P × Q = Σ P λ _ → Q
 
-data _∨_ (P : Type ℓ) (Q : Type ℓ') : Type (ℓ l⊔ ℓ') where
-  inl : P → P ∨ Q
-  inr : Q → P ∨ Q
+data _+_ (P : Type ℓ) (Q : Type ℓ') : Type (ℓ l⊔ ℓ') where
+  inl : P → P + Q
+  inr : Q → P + Q
 
 infix 2 Σ-syntax
 
@@ -55,3 +55,11 @@ assert-type : (X : Type ℓ) → X → X
 assert-type X x = x
 
 syntax assert-type X x = x ꞉ X -- \:4 in emacs
+
+case_of_ : X → (X → Y) → Y
+case x of f = f x
+
+infixr 0 _$_
+
+_$_ : (X → Y) → (X → Y)
+f $ x = f x
