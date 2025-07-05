@@ -8,6 +8,9 @@ private variable
   ℓ ℓ' ℓ'' : Level
   X Y Z W : Type ℓ
 
+lvlOf : Type ℓ → Level
+lvlOf {ℓ = ℓ} _ = ℓ
+
 -- intuitionistic logical operators
 record Lift (X : Type ℓ) ℓ' : Type (ℓ l⊔ ℓ') where
   constructor lift

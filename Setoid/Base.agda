@@ -6,27 +6,27 @@ open import Prelude
 open import Propositions.Base
 
 private variable
-  ℓ ℓ' ℓ'' ℓ''' : Level
+  ℓ ℓ' ℓ'' ℓ''' ℓ'''' ℓ''''' : Level
   X Y : Type ℓ
 
-record IsEquality (X : Type ℓ) (_≗_ : X → X → ±Prop ℓ') : Type (ℓ l⊔ ℓ') where
+record IsEq {X : Type ℓ} (_≗_ : X → X → ±Prop ℓ') : Type (ℓ l⊔ ℓ') where
   field
     refl : ∀ x → (x ≗ x) ⁺
     sym : ∀ x y → (x ≗ y) ⊢ (y ≗ x)
     trans : ∀ x y z → (x ≗ y) ⊠ (y ≗ z) ⊢ (x ≗ z)
 
-record Equality (X : Type ℓ) ℓ' : Type (ℓ l⊔ lsuc ℓ') where
+record Eq (X : Type ℓ) ℓ' : Type (ℓ l⊔ lsuc ℓ') where
   infix 40 _≗_
 
   field
     _≗_ : X → X → ±Prop ℓ'
-    isEquality : IsEquality X _≗_
+    isEq : IsEq _≗_
 
-  open IsEquality isEquality public
+  open IsEq isEq public
 
-open Equality ⦃...⦄ public
+open Eq ⦃...⦄ public
 
-record IsStrong (X : Type ℓ) ⦃ EqX : Equality X ℓ' ⦄ : Type (ℓ l⊔ ℓ') where
+record IsStrong (X : Type ℓ) ⦃ EqX : Eq X ℓ' ⦄ : Type (ℓ l⊔ ℓ') where
   field
     strongTrans : (x y z : X) → (x ≗ y) ⊓ (y ≗ z) ⊢ (x ≗ z)
 
@@ -36,19 +36,19 @@ record Setoid ℓ ℓ' : Type (lsuc (ℓ l⊔ ℓ')) where
   no-eta-equality
   field
     Carrier : Type ℓ
-    ⦃ CarrierEq ⦄ : Equality Carrier ℓ'
+    ⦃ CarrierEq ⦄ : Eq Carrier ℓ'
   
-  open Equality CarrierEq public
+  open Eq CarrierEq public
 
 open Setoid using () renaming (Carrier to ⟨_⟩) public
 
-module _ {X : Type ℓ} {Y : Type ℓ'} ⦃ EqX : Equality X ℓ'' ⦄ ⦃ EqY : Equality Y ℓ''' ⦄ where
-  record Respectful (f : X → Y) : Type (ℓ l⊔ ℓ'' l⊔ ℓ''') where
+module _ (f : X → Y) ⦃ _ : Eq X ℓ ⦄ ⦃ _ : Eq Y ℓ' ⦄ where
+  record IsRespectful : Type (lvlOf X l⊔ ℓ l⊔ ℓ') where
     field ≗cong : ∀ x y → x ≗ y ⊢ f x ≗ f y
 
-open Respectful ⦃...⦄ public
+  open IsRespectful ⦃...⦄ public
 
-module _ {X : Type ℓ} ⦃ EqX : Equality X ℓ' ⦄ where
+module _ {X : Type ℓ} ⦃ _ : Eq X ℓ' ⦄ where
   record _≡_ (x y : X) : Type ℓ' where
     constructor lift
     field lower : x ≗ y ⁺
@@ -82,7 +82,7 @@ module _ {X : Type ℓ} ⦃ EqX : Equality X ℓ' ⦄ where
   #respectr : ∀ {x y z} → x ≡ y → z # x → z # y
   #respectr (lift x≡y) (lift z#x) = lift (trans _ _ _ .fo z#x .fo (sym _ _ .to x≡y))
 
-  module _ ⦃ StrongX : IsStrong X ⦄ where
+  module _ ⦃ _ : IsStrong X ⦄ where
     #cotrans : ∀ {x y} z → x # y → (x # z) + (z # y)
     #cotrans z (lift x#y) with strongTrans _ z _ .fo x#y
     ... | inl x#z = inl (lift x#z)
@@ -91,7 +91,7 @@ module _ {X : Type ℓ} ⦃ EqX : Equality X ℓ' ⦄ where
 open _≡_ public
 open _#_ public
 
-module _ (f : X → Y) ⦃ EqX : Equality X ℓ'' ⦄ ⦃ EqY : Equality Y ℓ''' ⦄ ⦃ fResp : Respectful f ⦄ where
+module _ (f : X → Y) ⦃ _ : Eq X ℓ'' ⦄ ⦃ _ : Eq Y ℓ''' ⦄ ⦃ _ : IsRespectful f ⦄ where
   ≡cong : ∀ {x y} → x ≡ y → f x ≡ f y
   ≡cong p .lower = ≗cong _ _ .to (p .lower)
 

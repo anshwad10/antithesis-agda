@@ -73,7 +73,7 @@ P ⊞ Q = ¬ P ⊸ Q
 infix 2 ⊓-syntax ⊔-syntax
 
 ⊓-syntax : (X : Type ℓ) → (X → ±Prop ℓ') → ±Prop (ℓ l⊔ ℓ')
-⊓-syntax X P ⁺ = ∀(x : X) → P x ⁺
+⊓-syntax X P ⁺ = ∀ (x : X)→ P x ⁺
 ⊓-syntax X P ⁻ = Σ[ x ꞉ X ] P x ⁻
 ⊓-syntax X P .chu p+ (x , px-) = P x .chu (p+ x) px-
 

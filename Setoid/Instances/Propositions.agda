@@ -41,8 +41,8 @@ P ≡Ω Q = (P ⊸ Q) ⊓ (Q ⊸ P)
 Ωtrans .fo (inr x) .fo x₁ = inr (x₁ .snd .to (x .fst) , x .snd)
 
 instance
-  ±PropEq : Equality (±Prop ℓ) ℓ
-  ±PropEq .Equality._≗_ = _≡Ω_
-  ±PropEq .Equality.isEquality .IsEquality.refl _ = Ωrefl
-  ±PropEq .Equality.isEquality .IsEquality.sym _ _ = Ωsym
-  ±PropEq .Equality.isEquality .IsEquality.trans _ _ _ = Ωtrans
+  ±PropEq : Eq (±Prop ℓ) ℓ
+  ±PropEq .Eq._≗_ = _≡Ω_
+  ±PropEq .Eq.isEq .IsEq.refl _ = Ωrefl
+  ±PropEq .Eq.isEq .IsEq.sym _ _ = Ωsym
+  ±PropEq .Eq.isEq .IsEq.trans _ _ _ = Ωtrans

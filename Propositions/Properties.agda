@@ -104,6 +104,10 @@ _ ⊣⟨ ¬q⊢¬p ⟩ q⊢r = _ ⊢⟨ contrapose ¬q⊢¬p ⟩ q⊢r
 ⊠assoc .lower .snd .fo pq⊢¬r .to p+ .fo r+ = pq⊢¬r .fo r+ .to p+
 ⊠assoc .lower .snd .fo pq⊢¬r .fo (q+ , r+) = pq⊢¬r .fo r+ .fo q+
 
+⊠comm : P ⊠ Q ⊢ Q ⊠ P
+⊠comm .to (p+ , q+) = q+ , p+
+⊠comm .fo = contrapose
+
 -- TODO
 
 -- weaken
@@ -117,3 +121,6 @@ _ ⊣⟨ ¬q⊢¬p ⟩ q⊢r = _ ⊢⟨ contrapose ¬q⊢¬p ⟩ q⊢r
 
 ⊓map : P ⊢ R → Q ⊢ S → P ⊓ Q ⊢ R ⊓ S
 ⊓map p⊢r q⊢s = ⊓intro (⊢trans ⊓outl p⊢r) (⊢trans ⊓outr q⊢s)
+
+⊓comm : P ⊓ Q ⊢ Q ⊓ P
+⊓comm = ⊓intro ⊓outr ⊓outl
