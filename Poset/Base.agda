@@ -15,12 +15,15 @@ record IsPreord {X : Type ℓ} (_⊑_ : X → X → ±Prop ℓ') : Type (ℓ l�
     ⊑trans : ∀ x y z → (x ⊑ y) ⊠ (y ⊑ z) ⊢ (x ⊑ z)
 
 record Preord (X : Type ℓ) ℓ' : Type (ℓ l⊔ lsuc ℓ') where
-  infix 40 _⊑_
+  infix 40 _⊑_ _⊏_
 
   field
     _⊑_ : X → X → ±Prop ℓ'
     isPreord : IsPreord _⊑_
   
+  _⊏_ : X → X → ±Prop ℓ'
+  x ⊏ y = ¬ (y ⊑ x)
+
   open IsPreord isPreord public
 
 open Preord ⦃...⦄
